@@ -29,6 +29,7 @@ Usage
 To do
 -----
 1. Start "./shairport.pl" automatically
+2. Update "shairport" to version 0.5 (currently 0.3)
 
 Bugs
 ----
