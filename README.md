@@ -33,8 +33,8 @@ Usage
 2. ./shairport.pl
 3. Use your SBS web interface to create a Favourite with URL "squairplay:0" (that's a zero)
 4. Play something in iTunes or on iPhone
-5. Connect to the AirPlay instance which should now be visible
-6. Open Favourite for ShairPlay on your Squeezebox
+5. Connect iTunes/iPhone to the AirPlay instance which should now be available
+6. Play the SquairPlay favourite on your Squeezebox
 
 To do
 -----
