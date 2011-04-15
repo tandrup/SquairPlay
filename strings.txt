@@ -1,0 +1,8 @@
+# String file for SquairPlay plugin
+
+PLUGIN_SQUAIRPLAY
+	EN	SquairPlay
+
+PLUGIN_SQUAIRPLAY_DESC
+	EN	Receives audio streams from iTunes or iDevices via Apple's AirPlay technology
+

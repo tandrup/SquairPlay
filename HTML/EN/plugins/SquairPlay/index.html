@@ -1,0 +1,10 @@
+[%- pagetitle = 'PLUGIN_SQUAIRPLAY' | string; pageicon = 'PLUGIN_SQUAIRPLAY' -%]
+[%- PROCESS pageheader.html %]
+
+<script type="text/javascript" language="JavaScript">
+// Reload the status frame to display the newly added playlist item
+refreshStatus();
+document.location = '[% webroot %]home.html';
+</script>
+
+[% PROCESS pagefooter.html %]
