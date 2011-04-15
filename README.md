@@ -1,6 +1,7 @@
 SquairPlay
-==========
+========== 
 This is the first hacky attempt at streaming stuff from iTunes/iPhone to Squeezebox Server via AirPlay. It's been tested with:
+
 * Squeezebox Server 7.5.3 (r31792)
 * Ubuntu 10.10 (x86_64)
 * iPhone 4, firmware 4.3.1 (8G4)
@@ -10,7 +11,7 @@ Matthew Flint, m@tthew.org
 
 Warning
 -------
-I have no intention of maintaing this long-term... so I'm putting it on GitHub and hope that someone will adopt it. ;-)
+I have no intention of maintaing this long-term... so I'm putting it on GitHub and hope that someone will adopt it. ;-) 
 
 Pre-requisites
 --------------
@@ -23,14 +24,14 @@ Installation
 3. cd shairport
 4. make
 5. a file "rawpipe" will appear in the "shairport" directory. The "custom-convert.conf" (in the directory above) needs to be told where the rawpipe is, so change the path
-6. make a soft-link to your Squeezebox Server plugins directory from SquairPlay
+6. make a soft-link to your Squeezebox Server plugins directory from SquairPlay:
    sudo /path/to/SquairPlay/ /usr/share/squeezeboxserver/Plugins/SquairPlay
 
 Usage
 -----
 1. restart Squeezebox Server
 2. ./shairport.pl
-3. Use your SBS web interface to create a Favourite which points to "ShairPlay:"
+3. Use your SBS web interface to create a Favourite with URL "squairplay:0" (that's a zero)
 4. Play something in iTunes or on iPhone
 5. Connect to the AirPlay instance which should now be visible
 6. Open Favourite for ShairPlay on your Squeezebox
@@ -47,6 +48,7 @@ To do
 Bugs
 ----
 Probably many, including:
+
 1. It's fragile
 2. The quality isn't great
 3. Only the mp3 conversion is currently close to being functional
