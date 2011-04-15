@@ -6,3 +6,7 @@ PLUGIN_SQUAIRPLAY
 PLUGIN_SQUAIRPLAY_DESC
 	EN	Receives audio streams from iTunes or iDevices via Apple's AirPlay technology
 
+# TODO: SBS was complaining about missing this resource, so here it is. Why?
+SQUAIRPLAY
+	EN	SquairPlay
+
