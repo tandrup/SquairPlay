@@ -1,6 +1,6 @@
 SquairPlay
 ==========
-This is the first hacky attempt at streaming stuff from iTunes/iPhone to Squeezebox Server via AirTunes.
+This is the first hacky attempt at streaming stuff from iTunes/iPhone to Squeezebox Server via AirPlay.
 
 Matthew Flint, m@tthew.org
 
@@ -30,9 +30,11 @@ To do
 -----
 1. Start "./shairport.pl" automatically
 2. Update "shairport" to version 0.5 (currently 0.3)
+3. Prevent 'hairplay' from using a new port each time it restarts
 
 Bugs
 ----
 Many, probably, including:
-1. "custom-convert.conf" has a hard-coded path to "/usr/bin/sox" instead of the preferred "[sox]". This is because I'm using x64 Linux, and my version of Squeezebox Server didn't come with x64 binaries in the bundle
+1. It's fragile
+2. "custom-convert.conf" has a hard-coded path to "/usr/bin/sox" instead of the preferred "[sox]". This is because I'm using x64 Linux, and my version of Squeezebox Server didn't come with x64 binaries in the bundle
 
