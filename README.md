@@ -19,18 +19,21 @@ Squeezebox Server, Avahi, OpenSSL and probably other stuff.
 
 Installation
 ------------
-1. Make a folder somewhere - I called mine "SquairPlay" and cd into it
-2. Grab the source from GitHub
-3. cd shairport
-4. make
-5. a file "rawpipe" will appear in the "shairport" directory. The "custom-convert.conf" (in the directory above) needs to be told where the rawpipe is, so change the path
-6. make a soft-link to your Squeezebox Server plugins directory from SquairPlay:
+1. git clone https://github.com/mflint/SquairPlay.git SquairPlay
+2. cd SquairPlay
+3. git submodule init
+4. git submodule update
+5. cd shairport
+6. make
+7. make a soft-link to your Squeezebox Server plugins directory from SquairPlay:
    sudo /path/to/SquairPlay/ /usr/share/squeezeboxserver/Plugins/SquairPlay
+8. go back to SquairPlay directory and "./shairport.pl"
+9. a file "rawpipe" should have appeared in the "shairport" directory. The "custom-convert.conf" (in the SquairPlay directory) needs to be told where the rawpipe is, so change the path
 
 Usage
 -----
 1. restart Squeezebox Server
-2. ./shairport.pl
+2. ./shairport.pl  (if not already running)
 3. Use your SBS web interface to create a Favourite with URL "squairplay:0" (that's a zero)
 4. Play something in iTunes or on iPhone
 5. Connect iTunes/iPhone to the AirPlay instance which should now be available
@@ -39,11 +42,10 @@ Usage
 To do
 -----
 1. Start "./shairport.pl" automatically
-2. Update "shairport" to version 0.5 (currently 0.3)
-3. Prevent 'hairplay' from using a new port each time it restarts
-4. Fix the "wav" and "flac" entries in "custom-convert.conf"
-5. Provide a settings page where user can enter the AirPort private key. We probably shouldn't distribute the key with the plugin
-6. Investigate whether the AirPort protocol sends metadata about the currently-playing track?
+2. Prevent 'hairplay' from using a new port each time it restarts
+3. Fix the "wav" and "flac" entries in "custom-convert.conf"
+4. Provide a settings page where user can enter the AirPort private key. We probably shouldn't distribute the key with the plugin
+5. Investigate whether the AirPort protocol sends metadata about the currently-playing track?
 
 Bugs
 ----
