@@ -27,8 +27,8 @@ Installation
 6. make
 7. make a soft-link to your Squeezebox Server plugins directory from SquairPlay:
    sudo /path/to/SquairPlay/ /usr/share/squeezeboxserver/Plugins/SquairPlay
-8. go back to SquairPlay directory and "./shairport.pl"
-9. a file "rawpipe" should have appeared in the "shairport" directory. The "custom-convert.conf" (in the SquairPlay directory) needs to be told where the rawpipe is, so change the path
+8. go back to SquairPlay directory and "./shairport.pl --pipe=rawpipe"
+9. a file "rawpipe" will apear in the "shairport" directory when a connection is made for the first time. The "custom-convert.conf" (in the SquairPlay directory) needs to be told where the rawpipe is, so change the path
 
 Usage
 -----
