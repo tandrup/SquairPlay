@@ -1,0 +1,115 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		5CA421271376C33500E8D596 /* custom-convert.conf */ = {isa = PBXFileReference; lastKnownFileType = text; path = "custom-convert.conf"; sourceTree = "<group>"; };
+		5CA421281376C33500E8D596 /* custom-types.conf */ = {isa = PBXFileReference; lastKnownFileType = text; path = "custom-types.conf"; sourceTree = "<group>"; };
+		5CA421291376C33500E8D596 /* install.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = install.xml; sourceTree = "<group>"; };
+		5CA4212A1376C33500E8D596 /* Plugin.pm */ = {isa = PBXFileReference; lastKnownFileType = text.script.perl; path = Plugin.pm; sourceTree = "<group>"; };
+		5CA4212B1376C33500E8D596 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		5CA4212C1376C33500E8D596 /* SquairPlay.pm */ = {isa = PBXFileReference; lastKnownFileType = text.script.perl; path = SquairPlay.pm; sourceTree = "<group>"; };
+		5CA4212D1376C33500E8D596 /* strings.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = strings.txt; sourceTree = "<group>"; };
+		5CA421331376C42A00E8D596 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		5C4080321376C161006A0A66 = {
+			isa = PBXGroup;
+			children = (
+				5CA4212F1376C42900E8D596 /* HTML */,
+				5CA421271376C33500E8D596 /* custom-convert.conf */,
+				5CA421281376C33500E8D596 /* custom-types.conf */,
+				5CA421291376C33500E8D596 /* install.xml */,
+				5CA4212A1376C33500E8D596 /* Plugin.pm */,
+				5CA4212B1376C33500E8D596 /* README.md */,
+				5CA4212C1376C33500E8D596 /* SquairPlay.pm */,
+				5CA4212D1376C33500E8D596 /* strings.txt */,
+			);
+			sourceTree = "<group>";
+		};
+		5CA4212F1376C42900E8D596 /* HTML */ = {
+			isa = PBXGroup;
+			children = (
+				5CA421301376C42A00E8D596 /* EN */,
+			);
+			path = HTML;
+			sourceTree = "<group>";
+		};
+		5CA421301376C42A00E8D596 /* EN */ = {
+			isa = PBXGroup;
+			children = (
+				5CA421311376C42A00E8D596 /* plugins */,
+			);
+			path = EN;
+			sourceTree = "<group>";
+		};
+		5CA421311376C42A00E8D596 /* plugins */ = {
+			isa = PBXGroup;
+			children = (
+				5CA421321376C42A00E8D596 /* SquairPlay */,
+			);
+			path = plugins;
+			sourceTree = "<group>";
+		};
+		5CA421321376C42A00E8D596 /* SquairPlay */ = {
+			isa = PBXGroup;
+			children = (
+				5CA421331376C42A00E8D596 /* index.html */,
+			);
+			path = SquairPlay;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		5C4080341376C161006A0A66 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 5C4080371376C161006A0A66 /* Build configuration list for PBXProject "SquairPlay" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 5C4080321376C161006A0A66;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		5C4080391376C162006A0A66 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		5C40803A1376C162006A0A66 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5C4080371376C161006A0A66 /* Build configuration list for PBXProject "SquairPlay" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C4080391376C162006A0A66 /* Debug */,
+				5C40803A1376C162006A0A66 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5C4080341376C161006A0A66 /* Project object */;
+}

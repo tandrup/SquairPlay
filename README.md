@@ -8,6 +8,7 @@ This is the first hacky attempt at streaming stuff from iTunes/iPhone to Squeeze
 * iTunes 10.2.1 (1)
 
 Matthew Flint, m@tthew.org
+Mads Tandrup
 
 Warning
 -------
@@ -27,25 +28,21 @@ Installation
 6. make
 7. make a soft-link to your Squeezebox Server plugins directory from SquairPlay:
    sudo /path/to/SquairPlay/ /usr/share/squeezeboxserver/Plugins/SquairPlay
-8. go back to SquairPlay directory and "./shairport.pl --pipe=rawpipe"
-9. a file "rawpipe" will apear in the "shairport" directory when a connection is made for the first time. The "custom-convert.conf" (in the SquairPlay directory) needs to be told where the rawpipe is, so change the path
+8. Adjust paths in Plugin.pm and custom-convert.conf (in the SquairPlay directory)
 
 Usage
 -----
 1. restart Squeezebox Server
-2. ./shairport.pl  (if not already running)
-3. Use your SBS web interface to create a Favourite with URL "squairplay:0" (that's a zero)
-4. Play something in iTunes or on iPhone
-5. Connect iTunes/iPhone to the AirPlay instance which should now be available
-6. Play the SquairPlay favourite on your Squeezebox
+2. Play something in iTunes or on iPhone
+3. Connect iTunes/iPhone to the AirPlay instance which should now be available
+4. Your Squeezebox should now begin to play
 
 To do
 -----
-1. Start "./shairport.pl" automatically
-2. Prevent 'hairplay' from using a new port each time it restarts
-3. Fix the "wav" and "flac" entries in "custom-convert.conf"
-4. Provide a settings page where user can enter the AirPort private key. We probably shouldn't distribute the key with the plugin
-5. Investigate whether the AirPort protocol sends metadata about the currently-playing track?
+1. Prevent 'hairplay' from using a new port each time it restarts
+2. Fix the "wav" and "flac" entries in "custom-convert.conf"
+3. Provide a settings page where user can enter the AirPort private key. We probably shouldn't distribute the key with the plugin
+4. Investigate whether the AirPort protocol sends metadata about the currently-playing track?
 
 Bugs
 ----

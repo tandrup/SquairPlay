@@ -409,7 +409,7 @@ sub conn_handle_request {
             $resp->header('Transport', $req->header('Transport') . ";server_port=$port");
 
             #$client->execute(['playlist', 'play', 'http://stream.mainfm.dk/Main128', 'http://stream.mainfm.dk/Main128']);
-            $client->execute(['playlist', 'play', 'squairplay:0', 'squairplay:0']);
+            $client->execute(['playlist', 'play', 'squairplay:0', 'AirPlay']);
 
             last;
         };
