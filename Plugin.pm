@@ -13,6 +13,7 @@ use File::Spec::Functions qw(catdir);
 use FindBin qw($Bin);
 use Slim::Utils::Misc;
 use Plugins::SquairPlay::SquairPlay;
+use IPC::Open2;
 use IO::Socket;
 use MIME::Base64;
 use Crypt::OpenSSL::RSA;
@@ -26,6 +27,9 @@ my $apname = "Squeezebox";
 
 my $airport_pem = join '', <DATA>;
 my $rsa = Crypt::OpenSSL::RSA->new_private_key($airport_pem) || die "RSA private key import failed";
+
+my $hairtunes_cli = '/Users/tandrup/Work/SquairPlay/shairport/hairtunes';
+my $pipepath = '/Users/tandrup/Work/SquairPlay/shairport/rawpipe';
 
 our $avahi_publish;
 our $listen;
@@ -385,26 +389,28 @@ sub conn_handle_request {
             dport   => $dport,
             #                host    => 'unused',
             );
-            
+            $dec_args{pipe} = $pipepath if defined $pipepath;
+
             my $client = getFirstClient();
             
             $log->info("Client should start now", $client);
 
-            $client->execute(['playlist', 'play', 'http://stream.mainfm.dk/Main128', 'http://stream.mainfm.dk/Main128']);
+            my $dec = $hairtunes_cli . join(' ', '', map { sprintf "%s '%s'", $_, $dec_args{$_} } keys(%dec_args));
+            
+            $log->info("decode command: $dec");
+            my $decoder = open2(my $dec_out, my $dec_in, $dec);
+            
+            $conn->{decoder_pid} = $decoder;
+            $conn->{decoder_fh} = $dec_in;
+            my $portdesc = <$dec_out>;
+            die("Expected port number from decoder; got $portdesc") unless $portdesc =~ /^port: (\d+)/;
+            my $port = $1;
+            print "launched decoder: $decoder on port: $port\n";
+            $resp->header('Transport', $req->header('Transport') . ";server_port=$port");
 
-            
-            #my $dec = $hairtunes_cli . join(' ', '', map { sprintf "%s '%s'", $_, $dec_args{$_} } keys(%dec_args));
-            
-            #    print "decode command: $dec\n";
-            #my $decoder = open2(my $dec_out, my $dec_in, $dec);
-            
-            #$conn->{decoder_pid} = $decoder;
-            #$conn->{decoder_fh} = $dec_in;
-            #my $portdesc = <$dec_out>;
-            #die("Expected port number from decoder; got $portdesc") unless $portdesc =~ /^port: (\d+)/;
-            #my $port = $1;
-            #print "launched decoder: $decoder on port: $port\n";
-            #$resp->header('Transport', $req->header('Transport') . ";server_port=$port");
+            #$client->execute(['playlist', 'play', 'http://stream.mainfm.dk/Main128', 'http://stream.mainfm.dk/Main128']);
+            $client->execute(['playlist', 'play', 'squairplay:0', 'squairplay:0']);
+
             last;
         };
         
@@ -435,6 +441,20 @@ sub conn_handle_request {
     
     print $fh $resp->as_string("\r\n");
     $fh->flush;
+}
+
+sub ip6bin {
+    my $ip = shift;
+    $ip =~ /((.*)::)?(.+)/;
+    my @left = split /:/, $2;
+    my @right = split /:/, $3;
+    my @mid;
+    my $pad = 8 - ($#left + $#right + 2);
+    if ($pad > 0) {
+        @mid = (0) x $pad;
+    }
+    
+    pack('S>*', map { hex } (@left, @mid, @right));
 }
 
 1;
