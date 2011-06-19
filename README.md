@@ -7,17 +7,18 @@ This is the first hacky attempt at streaming stuff from iTunes/iPhone to Squeeze
 * iPhone 4, firmware 4.3.1 (8G4)
 * iTunes 10.2.1 (1)
 
-Matthew Flint, m@tthew.org
+Contributors
+------------
 
-Mads Tandrup
-
-Warning
--------
-I have no intention of maintaing this long-term... so I'm putting it on GitHub and hope that someone will adopt it. ;-) 
+* Matthew Flint, m@tthew.org
+* Mads Tandrup
 
 Pre-requisites
 --------------
 Squeezebox Server, Avahi, OpenSSL and probably other stuff.
+
+For Mac OS X I needed to install lame. 
+  brew install lame
 
 Installation
 ------------
