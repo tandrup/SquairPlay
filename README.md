@@ -8,6 +8,7 @@ This is the first hacky attempt at streaming stuff from iTunes/iPhone to Squeeze
 * iTunes 10.2.1 (1)
 
 Matthew Flint, m@tthew.org
+
 Mads Tandrup
 
 Warning
@@ -20,14 +21,14 @@ Squeezebox Server, Avahi, OpenSSL and probably other stuff.
 
 Installation
 ------------
-1. git clone https://github.com/mflint/SquairPlay.git SquairPlay
+1. git clone https://github.com/tandrup/SquairPlay.git SquairPlay
 2. cd SquairPlay
 3. git submodule init
 4. git submodule update
 5. cd shairport
 6. make
 7. make a soft-link to your Squeezebox Server plugins directory from SquairPlay:
-   sudo /path/to/SquairPlay/ /usr/share/squeezeboxserver/Plugins/SquairPlay
+   sudo ln -s /path/to/SquairPlay/ /usr/share/squeezeboxserver/Plugins/SquairPlay
 8. Adjust paths in Plugin.pm and custom-convert.conf (in the SquairPlay directory)
 
 Usage
