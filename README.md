@@ -15,17 +15,16 @@ Contributors
 * Matthew Flint, m@tthew.org
 * Mads Tandrup
 
-Warning
--------
-I have no intention of maintaing this long-term... so I'm putting it on GitHub and hope that someone will adopt it. ;-) 
-
 Pre-requisites
 --------------
 Squeezebox Server, Avahi, OpenSSL and probably other stuff.
 
+For Mac OS X I needed to install lame. 
+  brew install lame
+
 Installation
 ------------
-1. git clone https://github.com/mflint/SquairPlay.git SquairPlay
+1. git clone https://github.com/tandrup/SquairPlay.git SquairPlay
 2. cd SquairPlay
 3. git submodule init
 4. git submodule update
