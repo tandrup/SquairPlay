@@ -1,14 +1,19 @@
 SquairPlay
 ========== 
-This is the first hacky attempt at streaming stuff from iTunes/iPhone to Squeezebox Server via AirPlay. It's been tested with:
+This is a hacky attempt at streaming stuff from iTunes/iPhone to Squeezebox Server via AirPlay. It's been tested with:
 
-* Squeezebox Server 7.5.3 (r31792)
-* Ubuntu 10.10 (x86_64)
-* iPhone 4, firmware 4.3.1 (8G4)
-* iTunes 10.2.1 (1)
+* Squeezebox Server 7.5.4 (r31792)
+* Mac OS X Snow Leopard
+* iPhone 4, firmware 4.3.3
 
-Matthew Flint, m@tthew.org
-Mads Tandrup
+It starts publishing its services when the first Squeezebox connects. And automatically stops again when the server stops or the Squeezebox disconnects. Since I only own one Squeezebox the support for multiple squeezeboxes is not very good. The server will simple pick the first available Squeezebox and start streaming to it.
+
+It seems that iTunes have some trouble with multiple AirPlay services on the same machine. But more investigation is needed.
+
+Contributors
+------------
+* Matthew Flint, m@tthew.org
+* Mads Tandrup
 
 Warning
 -------
@@ -27,7 +32,10 @@ Installation
 5. cd shairport
 6. make
 7. make a soft-link to your Squeezebox Server plugins directory from SquairPlay:
-   sudo /path/to/SquairPlay/ /usr/share/squeezeboxserver/Plugins/SquairPlay
+   On Linux:
+   sudo ln -s /usr/share/squeezeboxserver/Plugins/SquairPlay /path/to/SquairPlay/ 
+   On Mac:
+   sudo ln -s ~/Library/Application Support/Squeezebox/Plugins/SquairPlay /path/to/SquairPlay/
 8. Adjust paths in Plugin.pm and custom-convert.conf (in the SquairPlay directory)
 
 Usage

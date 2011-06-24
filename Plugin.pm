@@ -23,17 +23,16 @@ my %wavsource;			# per-client friendly wavin device name
 
 my @hw_addr = (0, map { int rand 256 } 1..5);
 
-my $apname = "Squeezebox";
-
 my $airport_pem = join '', <DATA>;
 my $rsa = Crypt::OpenSSL::RSA->new_private_key($airport_pem) || die "RSA private key import failed";
 
 my $hairtunes_cli = '/Users/tandrup/Work/SquairPlay/shairport/hairtunes';
 my $pipepath = '/Users/tandrup/Work/SquairPlay/shairport/rawpipe';
 
+our $currentClient;
 our $avahi_publish;
 our $listen;
-our %conns = {};
+our %connnections = {};
 
 # create log categogy before loading other modules
 my $log = Slim::Utils::Log->addLogCategory( {
@@ -159,8 +158,10 @@ sub initPlugin {
 	#	$log->info("SquairPlay - wavin2cmd not found");
 	#	return 0;
 	#}
+
     
-    publish_service();   
+    Slim::Control::Request::subscribe( \&clientConnected, [['client'], ['new', 'reconnect']]);
+    Slim::Control::Request::subscribe( \&clientDisconnected, [['client'], ['disconnect']]);
 
 	$log->info("SquairPlay - initPlugin ...end");
 
@@ -191,12 +192,45 @@ sub shutdownPlugin {
 	$log->info("SquairPlay - shutdownPlugin begin...");
     
     unpublish_service();
-    
+
+    $currentClient = undef;
+
 	$log->info("SquairPlay - shutdownPlugin end.");
 }
 
+sub clientConnected {
+    my $request = shift;
+    
+    if (!defined $currentClient) {
+        publish_service($request->client());
+    }
+}
+
+sub clientDisconnected {
+    my $request = shift;
+    
+    unpublish_service();
+    
+    my $newClient = getFirstClient();
+    if (defined $newClient) {
+        publish_service($newClient);
+    }
+}
+
+
+sub getFirstClient {
+    for my $client ( Slim::Player::Client::clients() ) {
+        return $client;
+    }
+    return undef;
+}
+
 sub publish_service {
+    $currentClient = shift;
     my $portNumber = 5000;
+    my $apname = $currentClient->name();    
+
+    $log->info("Publish squeezebox service for $apname on $portNumber");
     
     $avahi_publish = fork();
     if ($avahi_publish==0) {
@@ -242,22 +276,19 @@ sub publish_service {
 }
 
 sub unpublish_service {
-    kill 9, $avahi_publish;
+    $log->info("Unpublish squeezebox service");
 
+    kill 9, $avahi_publish;
+    
 	if ( defined $listen ) {
 		Slim::Networking::Select::removeRead( $listen );
         
 		$listen->close;
         
-		$listen = undef;
+        $listen = undef;
 	}
-}
 
-sub getFirstClient {
-    for my $client ( Slim::Player::Client::clients() ) {
-       return $client;
-    }
-    return undef;
+    $currentClient = undef;
 }
 
 sub _readInput {
@@ -271,17 +302,17 @@ sub _readInput {
         Slim::Networking::Select::addRead( $new, \&_readInput );
 
         $new->blocking(0);
-        $conns{$new} = {fh => $fh};
+        $connnections{$new} = {fh => $fh};
 
     } else {
         if (eof($fh)) {
             $log->info("Closed connection from ", $fh);
             Slim::Networking::Select::removeRead( $fh, \&_readInput );
             close $fh;
-            #eval { kill $conns{$fh}{decoder_pid} };
-            delete $conns{$fh};
+            eval { kill $connnections{$fh}{decoder_pid} };
+            delete $connnections{$fh};
         }
-        if (exists $conns{$fh}) {
+        if (exists $connnections{$fh}) {
             conn_handle_data($fh);
         }
     }
@@ -289,7 +320,7 @@ sub _readInput {
 
 sub conn_handle_data {
     my $fh = shift;
-    my $conn = $conns{$fh};
+    my $conn = $connnections{$fh};
     
     if ($conn->{req_need}) {
         if (length($conn->{data}) >= $conn->{req_need}) {
@@ -349,6 +380,8 @@ sub conn_handle_request {
     
     $log->info("Method", $req->method);
 
+    my $client = $currentClient;
+
     for ($req->method) {
         /^OPTIONS$/ && do {
             $resp->header('Public', 'ANNOUNCE, SETUP, RECORD, PAUSE, FLUSH, TEARDOWN, OPTIONS, GET_PARAMETER, SET_PARAMETER');
@@ -391,10 +424,6 @@ sub conn_handle_request {
             );
             $dec_args{pipe} = $pipepath if defined $pipepath;
 
-            my $client = getFirstClient();
-            
-            $log->info("Client should start now", $client);
-
             my $dec = $hairtunes_cli . join(' ', '', map { sprintf "%s '%s'", $_, $dec_args{$_} } keys(%dec_args));
             
             $log->info("decode command: $dec");
@@ -408,7 +437,6 @@ sub conn_handle_request {
             print "launched decoder: $decoder on port: $port\n";
             $resp->header('Transport', $req->header('Transport') . ";server_port=$port");
 
-            #$client->execute(['playlist', 'play', 'http://stream.mainfm.dk/Main128', 'http://stream.mainfm.dk/Main128']);
             $client->execute(['playlist', 'play', 'squairplay:0', 'AirPlay']);
 
             last;
@@ -421,6 +449,7 @@ sub conn_handle_request {
             last;
         };
         /^TEARDOWN$/ && do {
+            $client->execute(['playlist', 'clear']);
             $resp->header('Connection', 'close');
             close $conn->{decoder_fh};
             last;
@@ -430,7 +459,16 @@ sub conn_handle_request {
             my %content = map { /^(\S+): (.+)/; (lc $1, $2) } @lines;
             my $cfh = $conn->{decoder_fh};
             if (exists $content{volume}) {
-                printf $cfh "vol: %f\n", $content{volume};
+                my $volume = $content{volume};
+                my $squeezeboxVolume = $client->minVolume();
+                if ($volume >= -30.0) {
+                    my $squeezeboxVolumeSpan = $client->maxVolume() - $client->minVolume();
+                    $squeezeboxVolume = (($volume + 30.0) * $squeezeboxVolumeSpan / 30.0) + $client->minVolume();
+                }
+                $log->info("Setting volume to $squeezeboxVolume");
+                $client->volume($squeezeboxVolume);
+            } else {
+                $log->info("Other SET_PARAMETERS", $req->content);
             }
             last;
         };
