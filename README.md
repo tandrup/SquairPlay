@@ -12,7 +12,7 @@ It seems that iTunes have some trouble with multiple AirPlay services on the sam
 
 Contributors
 ------------
-* Matthew Flint, m@tthew.org
+* Matthew Flint
 * Mads Tandrup
 
 Pre-requisites
